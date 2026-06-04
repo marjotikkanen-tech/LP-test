@@ -146,14 +146,48 @@
     .benefit-item h3 { font-size: 1.05rem; margin-bottom: 0.35rem; color: #002926; }
     .benefit-item p  { font-size: 0.95rem; color: #002926; }
 
-    /* ─── App features strip ────────────────────────────────── */
-    #app-features ul { display: flex; flex-direction: column; gap: 1rem; }
-    #app-features li {
-      display: flex; align-items: center; gap: 0.75rem;
-      font-size: 1rem; font-weight: 600;
+    /* ─── App features carousel ─────────────────────────────── */
+    #app-features { overflow: hidden; }
+    #app-features h2 {
+      font-family: var(--font-headline); font-weight: 400; color: #002926;
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      text-align: center; margin-bottom: 2rem;
     }
-    #app-features li .arrow-icon {
-      flex-shrink: 0; width: 20px; height: 20px; color: var(--color-accent);
+    .carousel-viewport { overflow: hidden; }
+    .carousel-track {
+      display: flex; gap: 1.25rem;
+      transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+    .carousel-slide {
+      flex: 0 0 calc((100% - 2 * 1.25rem) / 3);
+      background: #fff; border-radius: var(--radius-card);
+      padding: 1.5rem 1.25rem 1rem;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .carousel-slide h3 {
+      font-family: var(--font-headline); font-weight: 400;
+      font-size: 1.1rem; color: #002926; text-align: center;
+      min-height: 2.8em; display: flex; align-items: center; justify-content: center;
+    }
+    .carousel-slide img {
+      width: 100%; border-radius: 12px;
+      object-fit: cover; aspect-ratio: 9/16;
+    }
+    .carousel-dots {
+      display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.5rem;
+    }
+    .carousel-dot {
+      width: 10px; height: 10px; border-radius: 999px;
+      background: #D1D1D5; border: none; cursor: pointer;
+      transition: background 0.2s, width 0.2s; padding: 0;
+    }
+    .carousel-dot.active { background: #002926; width: 28px; }
+    @media (max-width: 767px) {
+      .carousel-slide { flex: 0 0 80%; }
+    }
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .carousel-slide { flex: 0 0 calc((100% - 1.25rem) / 2); }
     }
 
     /* ─── Testimonials ──────────────────────────────────────── */
@@ -279,15 +313,16 @@ const CONTENT = {
   benefitsCtaLabel: "Jetzt kostenlos starten",
   benefitsCtaHref:  "https://start.oviva.com/ui/bmi_first",
 
-  /* ── App features strip ──────────────────────────────────── */
+  /* ── App features carousel ───────────────────────────────── */
   appFeaturesHeadline: "Die Oviva App: dein Werkzeug für neue Gewohnheiten",
-  appFeatures: [
-    "Schritte und Aktivität – alles auf einen Blick",
-    "Jede Bewegung zählt – Sport, Alltag, alles",
-    "Was dein Schrittzähler nicht sieht: dein Essen",
-    "Schritt für Schritt zu neuen Gewohnheiten",
-    "Sieh, was sich verändert – Schritte, Gewicht, Energie"
+  appSlides: [
+    { title: "Schritte und Aktivität – alles auf einen Blick",       img: "app-screen-1.png" },
+    { title: "Jede Bewegung zählt – Sport, Alltag, alles",           img: "app-screen-2.png" },
+    { title: "Was dein Schrittzähler nicht sieht: dein Essen",       img: "app-screen-3.png" },
+    { title: "Schritt für Schritt zu neuen Gewohnheiten",            img: "app-screen-4.png" },
+    { title: "Sieh, was sich verändert – Schritte, Gewicht, Energie",img: "app-screen-5.png" }
   ],
+  carouselAutoplayMs: 3500, /* milliseconds between auto-advance */
 
   /* ── Testimonials ────────────────────────────────────────── */
   testimonialsHeadline: "Das sagen unsere Teilnehmenden",
@@ -394,11 +429,14 @@ const CONTENT = {
   </div>
 </section>
 
-<!-- App features -->
+<!-- App features carousel -->
 <section id="app-features" class="section">
   <div class="inner">
-    <h2 id="app-features-headline" style="margin-bottom:1.5rem;font-size:clamp(1.5rem,3vw,2.25rem);"></h2>
-    <ul id="app-features-list"></ul>
+    <h2 id="app-features-headline"></h2>
+    <div class="carousel-viewport">
+      <div class="carousel-track" id="carousel-track"></div>
+    </div>
+    <div class="carousel-dots" id="carousel-dots"></div>
   </div>
 </section>
 
@@ -480,11 +518,48 @@ const CONTENT = {
   document.getElementById('benefits-cta').textContent = c.benefitsCtaLabel;
   document.getElementById('benefits-cta').href        = c.benefitsCtaHref;
 
-  /* App features */
-  const arrowSVG = `<svg class="arrow-icon" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.707 5.707a1 1 0 0 0-1.414 0l-.35.35a1 1 0 0 0 0 1.415L19.212 13.75H5.375a.875.875 0 0 0-.875.875v.75c0 .483.392.875.875.875h13.837l-6.279 6.268a1 1 0 0 0 0 1.414l.36.36a1 1 0 0 0 1.414 0l8.586-8.586a1 1 0 0 0 0-1.414L15.707 5.707Z" fill="currentColor"/></svg>`;
+  /* App features carousel */
   document.getElementById('app-features-headline').textContent = c.appFeaturesHeadline;
-  document.getElementById('app-features-list').innerHTML =
-    c.appFeatures.map(f => `<li>${arrowSVG}${f}</li>`).join('');
+  const track = document.getElementById('carousel-track');
+  const dotsEl = document.getElementById('carousel-dots');
+  track.innerHTML = c.appSlides.map(s =>
+    `<div class="carousel-slide"><h3>${s.title}</h3><img src="${s.img}" alt="${s.title}" /></div>`
+  ).join('');
+  dotsEl.innerHTML = c.appSlides.map((_, i) =>
+    `<button class="carousel-dot${i === 0 ? ' active' : ''}" data-i="${i}" aria-label="Slide ${i+1}"></button>`
+  ).join('');
+
+  (function initCarousel() {
+    const slides     = track.querySelectorAll('.carousel-slide');
+    const dots       = dotsEl.querySelectorAll('.carousel-dot');
+    const visible    = () => window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
+    let current      = 0;
+    let timer;
+
+    function goTo(idx) {
+      const max = slides.length - visible();
+      current = Math.max(0, Math.min(idx, max));
+      const slideW = slides[0].offsetWidth + 20; /* 20 = gap in px */
+      track.style.transform = `translateX(-${current * slideW}px)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    function next() { goTo(current >= slides.length - visible() ? 0 : current + 1); }
+
+    function startAuto() { timer = setInterval(next, c.carouselAutoplayMs); }
+    function stopAuto()  { clearInterval(timer); }
+
+    dots.forEach(d => d.addEventListener('click', () => { stopAuto(); goTo(+d.dataset.i); startAuto(); }));
+
+    /* Pause on hover */
+    track.closest('.carousel-viewport').addEventListener('mouseenter', stopAuto);
+    track.closest('.carousel-viewport').addEventListener('mouseleave', startAuto);
+
+    /* Recalculate on resize */
+    window.addEventListener('resize', () => goTo(current));
+
+    startAuto();
+  })();
 
   /* Testimonials */
   document.getElementById('testimonials-headline').textContent = c.testimonialsHeadline;
