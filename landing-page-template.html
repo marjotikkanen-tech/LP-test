@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title"><!-- filled by JS --></title>
+  <meta name="description" id="page-meta-description" content="" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Design tokens (Oviva DE DiGA Styleguide) ─────────── */
+    :root {
+      /* Accent */
+      --color-accent:          #F47F56; /* Accent 1  – coral/orange CTA     */
+      --color-accent-hover:    #002926; /* Primary 1 – dark teal on hover   */
+      --color-text-on-accent:  #002926; /* Primary 1 – text on coral button */
+
+      /* Text */
+      --color-text-primary:    #002926; /* Text 1    – very dark teal       */
+      --color-text-secondary:  #6C6C70; /* Text 4    – mid gray             */
+      --color-text-on-dark:    #FDF9F3; /* Text 2    – warm white on dark   */
+
+      /* Backgrounds */
+      --color-bg-page:         #F6EDDE; /* main page background              */
+      --color-bg-section-alt:  #F6EDDE; /* alternate sections – same        */
+      --color-bg-trust:        #B4EACC; /* Secondary 4  – light mint green  */
+      --color-bg-dark:         #002926; /* Primary 1    – dark teal section */
+
+      /* Neutrals */
+      --color-neutral-white:   #FFFFFF; /* Neutral 1 */
+      --color-neutral-warm:    #FDF9F3; /* Neutral 2 */
+      --color-neutral-dark:    #444446; /* Neutral 5 */
+      --color-neutral-border:  #D1D1D5; /* Neutral 10 */
+
+      /* Outline button */
+      --color-btn-outline:     #002926; /* Primary 1 – dark teal border/text */
+
+      /* Typography */
+      --font-headline:         'DM Serif Display', serif;
+      --font-family:           'Inter', sans-serif;
+
+      /* Radii & layout */
+      --radius-btn:            999px;
+      --radius-card:           16px;
+      --max-width:             1120px;
+    }
+
+    /* ─── Reset / base ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-family); color: #002926; background: var(--color-bg-page); line-height: 1.5; }
+    h1, h2, h3, h4 { font-family: var(--font-headline); font-weight: 400; color: #002926; }
+    img  { max-width: 100%; height: auto; display: block; }
+    a    { text-decoration: none; color: inherit; }
+    ul   { list-style: none; }
+
+    /* ─── Layout helpers ────────────────────────────────────── */
+    .inner       { max-width: var(--max-width); margin: 0 auto; padding: 0 1.25rem; }
+    .section     { padding: 4rem 0; }
+    .section--sm { padding: 2rem 0; }
+
+    /* ─── Buttons ───────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: var(--radius-btn); font-weight: 700; font-size: 1rem;
+      padding: 0.85rem 2.5rem; cursor: pointer; border: 2px solid transparent;
+      transition: background .2s, color .2s, border-color .2s, transform .15s;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary {
+      background: var(--color-accent); color: var(--color-text-on-accent);
+      border-color: var(--color-accent);
+    }
+    .btn-primary:hover {
+      background: var(--color-accent-hover); color: var(--color-accent);
+      border-color: var(--color-accent-hover);
+    }
+    .btn-outline {
+      background: transparent; color: var(--color-btn-outline);
+      border-color: var(--color-btn-outline);
+    }
+    .btn-outline:hover {
+      background: var(--color-btn-outline); color: var(--color-neutral-white);
+    }
+
+    /* ─── Top announcement bar ──────────────────────────────── */
+    #announcement-bar {
+      background: #F6EDDE; color: #002926;
+      text-align: center; padding: 0.45rem 1rem;
+      font-size: 0.8rem; font-weight: 700;
+    }
+
+    /* ─── Header ────────────────────────────────────────────── */
+    header {
+      background: #FDF9F3; border-bottom: 1px solid var(--color-neutral-border);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+    }
+    .logo img { height: 36px; width: auto; }
+
+    /* ─── Insurance / trust strip ───────────────────────────── */
+    #trust-strip {
+      background: var(--color-bg-trust); padding: 0.8rem 0;
+      font-size: 0.9rem;
+    }
+    .trust-inner {
+      display: flex; flex-wrap: wrap; align-items: center;
+      justify-content: center; gap: 0.5rem 1.5rem;
+    }
+    .trust-label  { font-weight: 700; white-space: nowrap; }
+    .trust-brands { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 1.5rem; }
+    .trust-brands span { font-weight: 600; white-space: nowrap; }
+
+    /* ─── Hero ──────────────────────────────────────────────── */
+    #hero .inner {
+      display: flex; flex-direction: column; gap: 2.5rem;
+      padding-top: 3rem; padding-bottom: 3rem;
+    }
+    .hero-text   { display: flex; flex-direction: column; gap: 1rem; }
+    .hero-text h1 { font-family: var(--font-headline); font-size: clamp(2rem, 5vw, 3.25rem); line-height: 1.1; font-weight: 400; color: #002926; }
+    .hero-text h2 { font-size: clamp(1.1rem, 2.5vw, 1.4rem); font-weight: 500; color: #002926; }
+    .hero-text p  { font-size: 1.05rem; font-weight: 400; max-width: 560px; color: #002926; }
+    .hero-image   { border-radius: var(--radius-card); overflow: hidden; }
+    .hero-image img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
+
+    /* ─── Feature spotlight ─────────────────────────────────── */
+    .feature-section .inner {
+      display: flex; flex-direction: column; gap: 2rem;
+    }
+    .feature-section h2 { font-family: var(--font-headline); font-size: clamp(1.5rem, 3.5vw, 2.25rem); font-weight: 400; color: #002926; }
+    .feature-section p  { font-size: 1.05rem; color: #002926; }
+    .feature-image img  { width: 100%; max-width: 365px; }
+
+    /* ─── Benefits list ─────────────────────────────────────── */
+    #benefits { background: var(--color-bg-section-alt); }
+    #benefits h2 { font-family: var(--font-headline); font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 400; color: #002926; margin-bottom: 2rem; }
+    .benefit-list { display: flex; flex-direction: column; gap: 1.5rem; max-width: 560px; margin: 0 auto; }
+    .benefit-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .benefit-icon {
+      flex-shrink: 0; width: 30px; height: 30px; margin-top: 2px;
+      color: var(--color-accent);
+    }
+    .benefit-item h3 { font-size: 1.05rem; margin-bottom: 0.35rem; color: #002926; }
+    .benefit-item p  { font-size: 0.95rem; color: #002926; }
+
+    /* ─── App features carousel ─────────────────────────────── */
+    #app-features { overflow: hidden; }
+    #app-features h2 {
+      font-family: var(--font-headline); font-weight: 400; color: #002926;
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      text-align: center; margin-bottom: 2rem;
+    }
+    .carousel-viewport { overflow: hidden; }
+    .carousel-track {
+      display: flex; gap: 1.25rem;
+      transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+    .carousel-slide {
+      flex: 0 0 calc((100% - 2 * 1.25rem) / 3);
+      background: #fff; border-radius: var(--radius-card);
+      padding: 1.5rem 1.25rem 1rem;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .carousel-slide h3 {
+      font-family: var(--font-headline); font-weight: 400;
+      font-size: 1.1rem; color: #002926; text-align: center;
+      min-height: 2.8em; display: flex; align-items: center; justify-content: center;
+    }
+    .carousel-slide img {
+      width: 100%; border-radius: 12px;
+      object-fit: cover; aspect-ratio: 9/16;
+    }
+    .carousel-dots {
+      display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.5rem;
+    }
+    .carousel-dot {
+      width: 10px; height: 10px; border-radius: 999px;
+      background: #D1D1D5; border: none; cursor: pointer;
+      transition: background 0.2s, width 0.2s; padding: 0;
+    }
+    .carousel-dot.active { background: #002926; width: 28px; }
+    @media (max-width: 767px) {
+      .carousel-slide { flex: 0 0 80%; }
+    }
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .carousel-slide { flex: 0 0 calc((100% - 1.25rem) / 2); }
+    }
+
+    /* ─── Testimonials ──────────────────────────────────────── */
+    #testimonials { background: #FDF9F3; }
+    #testimonials h2 { font-family: var(--font-headline); font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 400; color: #002926; margin-bottom: 2rem; text-align: center; }
+    .testimonials-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+    .testimonial-card {
+      background: #ffffff; border-radius: var(--radius-card);
+      padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;
+    }
+    .testimonial-header { display: flex; align-items: center; gap: 1rem; }
+    .testimonial-avatar-wrap { position: relative; flex-shrink: 0; width: 72px; }
+    .testimonial-img {
+      width: 72px; height: 72px; border-radius: 50%;
+      object-fit: cover; object-position: top;
+      background: #f0f0f0;
+    }
+    .testimonial-result {
+      position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+      background: #B4EACC; color: #002926;
+      font-size: 0.75rem; font-weight: 700;
+      padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+    }
+    .testimonial-meta { display: flex; flex-direction: column; gap: 0.1rem; }
+    .testimonial-name { font-weight: 700; font-size: 1rem; color: #002926; }
+    .testimonial-role { font-size: 0.85rem; color: #002926; opacity: 0.7; }
+    .testimonial-quote { font-size: 0.95rem; line-height: 1.55; color: #002926; font-style: italic; }
+
+    /* ─── CTA section ───────────────────────────────────────── */
+    #final-cta {
+      background: #0DCBAA; color: #002926;
+      text-align: center; padding: 4rem 1.25rem;
+    }
+    #final-cta h2 { font-family: var(--font-headline); font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 400; color: #002926; margin-bottom: 2rem; }
+    #final-cta .btn-outline { border-color: #002926; color: #002926; }
+    #final-cta .btn-outline:hover { background: #002926; color: #0DCBAA; }
+    .cta-buttons   { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+
+    /* ─── Footer ────────────────────────────────────────────── */
+    footer {
+      background: var(--color-bg-dark); color: var(--color-text-on-dark);
+      padding: 1.5rem 0; font-size: 0.85rem;
+    }
+    .footer-inner {
+      display: flex; flex-wrap: wrap; gap: 0.75rem 2rem;
+      justify-content: center; align-items: center;
+    }
+    .footer-inner a { color: var(--color-text-on-dark); opacity: 0.75; }
+    .footer-inner a:hover { opacity: 1; text-decoration: underline; }
+
+    /* ─── Responsive ─────────────────────────────────────────── */
+    @media (min-width: 768px) {
+      #hero .inner           { flex-direction: row; align-items: center; }
+      .hero-text             { max-width: 540px; }
+      .hero-image            { flex: 1; }
+      .feature-section .inner{ flex-direction: row; align-items: center; }
+      .feature-text          { flex: 1; }
+      .testimonials-grid     { flex-direction: row; }
+      .testimonial-card      { flex: 1; }
+      #benefits h2           { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════
+     CONTENT CONFIGURATION
+     Edit the CONTENT object below to update all page copy.
+     ════════════════════════════════════════════════════════════ -->
+<script>
+const CONTENT = {
+
+  /* ── Meta ─────────────────────────────────────────────────── */
+  pageTitle:       "Mit Oviva Schritt für Schritt zum Wunschgewicht | Oviva AG",
+  metaDescription: "Schritte zählen ist ein Anfang – mit Oviva wird mehr daraus. Abnehmen mit Aktivitäts-Tracking, Ernährungsberatung und echten Coaches. Kostenlos auf Rezept.",
+
+  /* ── Announcement bar ────────────────────────────────────── */
+  announcement: "Über 1 Million Menschen vertrauen Oviva. Du auch?",
+
+  /* ── Header / nav ────────────────────────────────────────── */
+  logoAlt:       "Oviva AG",
+  logoSrc:       "Oviva_Logo_Bright 2.svg",
+  navCtaLabel:   "Jetzt kostenlos starten",
+  navCtaHref:    "https://start.oviva.com/ui/bmi_first",
+
+  /* ── Trust strip ─────────────────────────────────────────── */
+  trustLabel:  "Erstattet von über 40 Krankenkassen:",
+  trustBrands: ["BARMER", "Techniker Krankenkasse", "AOK", "IKK classic"],
+
+  /* ── Hero ────────────────────────────────────────────────── */
+  heroHeadline:    "Schritt für Schritt zum Wunschgewicht",
+  heroSubheadline: "Schritte zählen ist ein Anfang. Mit Oviva wird mehr daraus.",
+  heroBody:        "Oviva verbindet Schritte mit Ernährung, Wohlbefinden und neuen Gewohnheiten. Wissenschaftlich fundiert, kostenlos auf Rezept.",
+  heroCtaLabel:    "Jetzt kostenlos starten",
+  heroCtaHref:     "https://start.oviva.com/ui/bmi_first",
+  heroImageSrc:    "https://start.oviva.com/ui/_next/image?url=%2Fui%2Fimages%2Fstep-counter-hero.webp&w=1200&q=75",
+  heroImageAlt:    "Eine Frau, die auf ihrem Handy ihre Schritte überprüft.",
+
+  /* ── Feature spotlight ───────────────────────────────────── */
+  featureHeadline: "Aktivitätskompass: Jede Bewegung zählt.",
+  featureBody:     "Oviva zählt deine Schritte – wie eine Schrittzähler-App, nur klüger. Tägliche Schritte und Aktivitätsminuten auf einen Blick. Dein Ziel startet bei 2.000 Schritten und wächst mit dir – in deinem Tempo, abgestimmt auf deinen Körper. Verbindet sich mit Apple Health, Google Health Connect und Fitbit.",
+  featureCtaLabel: "Jetzt kostenlos starten",
+  featureCtaHref:  "https://start.oviva.com/ui/bmi_first",
+  featureImageSrc: "https://start.oviva.com/ui/_next/image?url=%2Fui%2Fimages%2Ffeature-activity-compass.webp&w=750&q=75",
+  featureImageAlt: "Aktivitätskompass-Funktion der Oviva App auf einem Smartphone.",
+
+  /* ── Benefits ────────────────────────────────────────────── */
+  benefitsHeadline: "Bewegung ist der Anfang. So unterstützt dich Oviva beim Abnehmen.",
+  benefits: [
+    {
+      title: "Essverhalten erkennen",
+      body:  "Mahlzeiten per Foto erfassen. Der Ernährungskompass zeigt dir, wie ausgewogen dein Tag war – ohne Kalorienzählen."
+    },
+    {
+      title: "Routinen aufbauen",
+      body:  "Kleine, alltagstaugliche Aufgaben helfen dir, Schritt für Schritt neue Gewohnheiten zu entwickeln. Kein starrer Plan."
+    },
+    {
+      title: "Antworten bekommen",
+      body:  "Echte Ernährungsfachkräfte unterstützen dich auf deinem Weg. Erreichbar per Chat, wenn du sie brauchst."
+    }
+  ],
+  benefitsCtaLabel: "Jetzt kostenlos starten",
+  benefitsCtaHref:  "https://start.oviva.com/ui/bmi_first",
+
+  /* ── App features carousel ───────────────────────────────── */
+  appFeaturesHeadline: "Die Oviva App: dein Werkzeug für neue Gewohnheiten",
+  appSlides: [
+    { title: "Schritte und Aktivität – alles auf einen Blick",       img: "app-screen-1.png" },
+    { title: "Jede Bewegung zählt – Sport, Alltag, alles",           img: "app-screen-2.png" },
+    { title: "Was dein Schrittzähler nicht sieht: dein Essen",       img: "app-screen-3.png" },
+    { title: "Schritt für Schritt zu neuen Gewohnheiten",            img: "app-screen-4.png" },
+    { title: "Sieh, was sich verändert – Schritte, Gewicht, Energie",img: "app-screen-5.png" }
+  ],
+  carouselAutoplayMs: 3500, /* milliseconds between auto-advance */
+
+  /* ── Testimonials ────────────────────────────────────────── */
+  testimonialsHeadline: "Das sagen unsere Teilnehmenden",
+  testimonialImageSrc: "testimonial.png",
+  testimonialImageAlt: "Oviva Teilnehmende",
+  testimonials: [
+    {
+      result: "-16 kg",
+      name:   "Nicole, 52",
+      role:   "Oviva Teilnehmende",
+      quote:  "Ich bin fitter. Bewege mich mehr. Bin länger mit den Hunden unterwegs."
+    },
+    {
+      result: "-12 kg",
+      name:   "Illona, 51",
+      role:   "Oviva Teilnehmende",
+      quote:  "Ich passe in viele schöne Kleidungsstücke wieder rein. In der Arbeit kann ich den Alltag besser bewältigen. Habe nicht jeden Tag Rückenschmerzen und bin wieder unternehmungslustig."
+    }
+  ],
+
+  /* ── Final CTA ───────────────────────────────────────────── */
+  finalCtaHeadline: "Bereit, gemeinsam loszulegen?",
+  finalCtas: [
+    { label: "Jetzt kostenlos starten", href: "https://start.oviva.com/ui/bmi_first", style: "btn-outline" }
+  ],
+
+  /* ── Footer links ────────────────────────────────────────── */
+  footerLinks: [
+    { label: "Impressum",    href: "#" },
+    { label: "Datenschutz",  href: "#" },
+    { label: "AGB",          href: "#" },
+    { label: "FAQs & Kontakt", href: "#" },
+    { label: "Cookie-Einstellungen", href: "#" }
+  ]
+};
+</script>
+
+<!-- ════════════════════════════════════════════════════════════
+     HTML STRUCTURE
+     ════════════════════════════════════════════════════════════ -->
+
+<!-- Announcement bar -->
+<div id="announcement-bar"></div>
+
+<!-- Header -->
+<header>
+  <div class="inner header-inner">
+    <a class="logo" id="logo-link" href="#">
+      <img id="logo-img" src="" alt="" />
+    </a>
+    <a id="nav-cta" class="btn btn-primary" href="#"></a>
+  </div>
+</header>
+
+<!-- Trust strip -->
+<div id="trust-strip">
+  <div class="inner trust-inner">
+    <span class="trust-label" id="trust-label"></span>
+    <div class="trust-brands" id="trust-brands"></div>
+  </div>
+</div>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="inner">
+    <div class="hero-text">
+      <h1 id="hero-headline"></h1>
+      <h2 id="hero-subheadline"></h2>
+      <p  id="hero-body"></p>
+      <div>
+        <a id="hero-cta" class="btn btn-primary" href="#"></a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img id="hero-image" src="" alt="" />
+    </div>
+  </div>
+</section>
+
+<!-- Feature spotlight -->
+<section id="feature-spotlight" class="section feature-section">
+  <div class="inner">
+    <div class="feature-text">
+      <h2 id="feature-headline"></h2>
+      <p  id="feature-body" style="margin-top:1rem;"></p>
+      <div style="margin-top:1.5rem;">
+        <a id="feature-cta" class="btn btn-outline" href="#"></a>
+      </div>
+    </div>
+    <div class="feature-image">
+      <img id="feature-image" src="" alt="" />
+    </div>
+  </div>
+</section>
+
+<!-- Benefits -->
+<section id="benefits" class="section">
+  <div class="inner">
+    <h2 id="benefits-headline"></h2>
+    <ul class="benefit-list" id="benefits-list"></ul>
+    <div style="margin-top:2rem; text-align:center;">
+      <a id="benefits-cta" class="btn btn-primary" href="#"></a>
+    </div>
+  </div>
+</section>
+
+<!-- App features carousel -->
+<section id="app-features" class="section">
+  <div class="inner">
+    <h2 id="app-features-headline"></h2>
+    <div class="carousel-viewport">
+      <div class="carousel-track" id="carousel-track"></div>
+    </div>
+    <div class="carousel-dots" id="carousel-dots"></div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section id="testimonials" class="section">
+  <div class="inner">
+    <h2 id="testimonials-headline"></h2>
+    <div class="testimonials-grid" id="testimonials-grid"></div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section id="final-cta">
+  <h2 id="final-cta-headline"></h2>
+  <div class="cta-buttons" id="final-cta-buttons"></div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner" id="footer-links"></div>
+</footer>
+
+<!-- ════════════════════════════════════════════════════════════
+     RENDER ENGINE – reads CONTENT and populates the DOM
+     ════════════════════════════════════════════════════════════ -->
+<script>
+(function render() {
+  const c = CONTENT;
+
+  /* Meta */
+  document.title = c.pageTitle;
+  document.getElementById('page-title').textContent = c.pageTitle;
+  document.getElementById('page-meta-description').setAttribute('content', c.metaDescription);
+
+  /* Announcement */
+  document.getElementById('announcement-bar').textContent = c.announcement;
+
+  /* Header */
+  document.getElementById('logo-img').src   = c.logoSrc;
+  document.getElementById('logo-img').alt   = c.logoAlt;
+  document.getElementById('nav-cta').textContent = c.navCtaLabel;
+  document.getElementById('nav-cta').href   = c.navCtaHref;
+
+  /* Trust strip */
+  document.getElementById('trust-label').textContent = c.trustLabel;
+  document.getElementById('trust-brands').innerHTML  =
+    c.trustBrands.map(b => `<span>${b}</span>`).join('');
+
+  /* Hero */
+  document.getElementById('hero-headline').textContent    = c.heroHeadline;
+  document.getElementById('hero-subheadline').textContent = c.heroSubheadline;
+  document.getElementById('hero-body').textContent        = c.heroBody;
+  document.getElementById('hero-cta').textContent         = c.heroCtaLabel;
+  document.getElementById('hero-cta').href                = c.heroCtaHref;
+  document.getElementById('hero-image').src               = c.heroImageSrc;
+  document.getElementById('hero-image').alt               = c.heroImageAlt;
+
+  /* Feature spotlight */
+  document.getElementById('feature-headline').textContent = c.featureHeadline;
+  document.getElementById('feature-body').textContent     = c.featureBody;
+  document.getElementById('feature-cta').textContent      = c.featureCtaLabel;
+  document.getElementById('feature-cta').href             = c.featureCtaHref;
+  document.getElementById('feature-image').src            = c.featureImageSrc;
+  document.getElementById('feature-image').alt            = c.featureImageAlt;
+
+  /* Benefits */
+  document.getElementById('benefits-headline').textContent = c.benefitsHeadline;
+  document.getElementById('benefits-list').innerHTML =
+    c.benefits.map(b => `
+      <li class="benefit-item">
+        <svg class="benefit-icon" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.707 5.707a1 1 0 0 0-1.414 0l-.35.35a1 1 0 0 0 0 1.415L19.212 13.75H5.375a.875.875 0 0 0-.875.875v.75c0 .483.392.875.875.875h13.837l-6.279 6.268a1 1 0 0 0 0 1.414l.36.36a1 1 0 0 0 1.414 0l8.586-8.586a1 1 0 0 0 0-1.414L15.707 5.707Z" fill="currentColor"/>
+        </svg>
+        <div>
+          <h3>${b.title}</h3>
+          <p>${b.body}</p>
+        </div>
+      </li>`).join('');
+  document.getElementById('benefits-cta').textContent = c.benefitsCtaLabel;
+  document.getElementById('benefits-cta').href        = c.benefitsCtaHref;
+
+  /* App features carousel */
+  document.getElementById('app-features-headline').textContent = c.appFeaturesHeadline;
+  const track = document.getElementById('carousel-track');
+  const dotsEl = document.getElementById('carousel-dots');
+  track.innerHTML = c.appSlides.map(s =>
+    `<div class="carousel-slide"><h3>${s.title}</h3><img src="${s.img}" alt="${s.title}" /></div>`
+  ).join('');
+  dotsEl.innerHTML = c.appSlides.map((_, i) =>
+    `<button class="carousel-dot${i === 0 ? ' active' : ''}" data-i="${i}" aria-label="Slide ${i+1}"></button>`
+  ).join('');
+
+  (function initCarousel() {
+    const slides     = track.querySelectorAll('.carousel-slide');
+    const dots       = dotsEl.querySelectorAll('.carousel-dot');
+    const visible    = () => window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
+    let current      = 0;
+    let timer;
+
+    function goTo(idx) {
+      const max = slides.length - visible();
+      current = Math.max(0, Math.min(idx, max));
+      const slideW = slides[0].offsetWidth + 20; /* 20 = gap in px */
+      track.style.transform = `translateX(-${current * slideW}px)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    function next() { goTo(current >= slides.length - visible() ? 0 : current + 1); }
+
+    function startAuto() { timer = setInterval(next, c.carouselAutoplayMs); }
+    function stopAuto()  { clearInterval(timer); }
+
+    dots.forEach(d => d.addEventListener('click', () => { stopAuto(); goTo(+d.dataset.i); startAuto(); }));
+
+    /* Pause on hover */
+    track.closest('.carousel-viewport').addEventListener('mouseenter', stopAuto);
+    track.closest('.carousel-viewport').addEventListener('mouseleave', startAuto);
+
+    /* Recalculate on resize */
+    window.addEventListener('resize', () => goTo(current));
+
+    startAuto();
+  })();
+
+  /* Testimonials */
+  document.getElementById('testimonials-headline').textContent = c.testimonialsHeadline;
+  document.getElementById('testimonials-grid').innerHTML =
+    c.testimonials.map(t => `
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <div class="testimonial-avatar-wrap">
+            <img class="testimonial-img" src="${c.testimonialImageSrc}" alt="${c.testimonialImageAlt}" />
+            <span class="testimonial-result">${t.result}</span>
+          </div>
+          <div class="testimonial-meta">
+            <span class="testimonial-name">${t.name}</span>
+            <span class="testimonial-role">${t.role}</span>
+          </div>
+        </div>
+        <p class="testimonial-quote">„${t.quote}"</p>
+      </div>`).join('');
+
+  /* Final CTA */
+  document.getElementById('final-cta-headline').textContent = c.finalCtaHeadline;
+  document.getElementById('final-cta-buttons').innerHTML =
+    c.finalCtas.map(b => `<a class="btn ${b.style}" href="${b.href}">${b.label}</a>`).join('');
+
+  /* Footer */
+  document.getElementById('footer-links').innerHTML =
+    c.footerLinks.map(l => `<a href="${l.href}">${l.label}</a>`).join('');
+})();
+</script>
+
+</body>
+</html>
