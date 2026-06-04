@@ -161,7 +161,7 @@
     #testimonials h2 { font-family: var(--font-headline); font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 400; color: #002926; margin-bottom: 2rem; text-align: center; }
     .testimonials-grid { display: flex; flex-direction: column; gap: 1.5rem; }
     .testimonial-card {
-      background: #0DCBAA; border-radius: var(--radius-card);
+      background: #ffffff; border-radius: var(--radius-card);
       padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;
       overflow: hidden;
     }
@@ -176,6 +176,8 @@
       text-align: center; padding: 4rem 1.25rem;
     }
     #final-cta h2 { font-family: var(--font-headline); font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 400; color: #002926; margin-bottom: 2rem; }
+    #final-cta .btn-outline { border-color: #002926; color: #002926; }
+    #final-cta .btn-outline:hover { background: #002926; color: #0DCBAA; }
     .cta-buttons   { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
 
     /* ─── Footer ────────────────────────────────────────────── */
@@ -222,7 +224,7 @@ const CONTENT = {
   /* ── Header / nav ────────────────────────────────────────── */
   logoAlt:       "Oviva AG",
   logoSrc:       "Oviva_Logo_Bright 2.svg",
-  navCtaLabel:   "Jetzt Anspruch prüfen",
+  navCtaLabel:   "Jetzt kostenlos starten",
   navCtaHref:    "https://start.oviva.com/ui/bmi_first",
 
   /* ── Trust strip ─────────────────────────────────────────── */
@@ -233,7 +235,7 @@ const CONTENT = {
   heroHeadline:    "Schritt für Schritt zum Wunschgewicht",
   heroSubheadline: "Schritte zählen ist ein Anfang. Mit Oviva wird mehr daraus.",
   heroBody:        "Oviva verbindet Schritte mit Ernährung, Wohlbefinden und neuen Gewohnheiten. Wissenschaftlich fundiert, kostenlos auf Rezept.",
-  heroCtaLabel:    "Jetzt Anspruch prüfen",
+  heroCtaLabel:    "Jetzt kostenlos starten",
   heroCtaHref:     "https://start.oviva.com/ui/bmi_first",
   heroImageSrc:    "https://start.oviva.com/ui/_next/image?url=%2Fui%2Fimages%2Fstep-counter-hero.webp&w=1200&q=75",
   heroImageAlt:    "Eine Frau, die auf ihrem Handy ihre Schritte überprüft.",
@@ -262,7 +264,7 @@ const CONTENT = {
       body:  "Echte Ernährungsfachkräfte unterstützen dich auf deinem Weg. Erreichbar per Chat, wenn du sie brauchst."
     }
   ],
-  benefitsCtaLabel: "Jetzt Anspruch prüfen",
+  benefitsCtaLabel: "Jetzt kostenlos starten",
   benefitsCtaHref:  "https://start.oviva.com/ui/bmi_first",
 
   /* ── App features strip ──────────────────────────────────── */
@@ -297,8 +299,7 @@ const CONTENT = {
   /* ── Final CTA ───────────────────────────────────────────── */
   finalCtaHeadline: "Bereit, gemeinsam loszulegen?",
   finalCtas: [
-    { label: "Jetzt kostenlos starten", href: "https://start.oviva.com/ui/bmi_first", style: "btn-primary" },
-    { label: "Jetzt Anspruch prüfen",   href: "https://start.oviva.com/ui/bmi_first", style: "btn-outline" }
+    { label: "Jetzt kostenlos starten", href: "https://start.oviva.com/ui/bmi_first", style: "btn-outline" }
   ],
 
   /* ── Footer links ────────────────────────────────────────── */
