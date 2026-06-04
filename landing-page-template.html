@@ -152,31 +152,30 @@
       display: flex; align-items: center; gap: 0.75rem;
       font-size: 1rem; font-weight: 600;
     }
-    #app-features li::before {
-      content: '✓'; font-weight: 700; font-size: 1.1rem;
-      color: var(--color-accent);
+    #app-features li .arrow-icon {
+      flex-shrink: 0; width: 20px; height: 20px; color: var(--color-accent);
     }
 
     /* ─── Testimonials ──────────────────────────────────────── */
     #testimonials { background: #FDF9F3; }
     #testimonials h2 { font-family: var(--font-headline); font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 400; color: #002926; margin-bottom: 2rem; text-align: center; }
-    .testimonials-grid {
-      display: flex; flex-direction: column; gap: 1.5rem;
-    }
+    .testimonials-grid { display: flex; flex-direction: column; gap: 1.5rem; }
     .testimonial-card {
-      background: #F6EDDE; border-radius: var(--radius-card);
+      background: #0DCBAA; border-radius: var(--radius-card);
       padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;
+      overflow: hidden;
     }
+    .testimonial-img { width: 100%; height: 180px; object-fit: cover; border-radius: calc(var(--radius-card) - 4px); margin-bottom: 0.25rem; }
     .testimonial-result { font-family: var(--font-headline); font-size: 2.25rem; font-weight: 400; color: #002926; }
     .testimonial-name   { font-weight: 500; font-size: 0.95rem; color: #002926; }
     .testimonial-quote  { font-size: 0.95rem; line-height: 1.55; color: #002926; }
 
     /* ─── CTA section ───────────────────────────────────────── */
     #final-cta {
-      background: var(--color-bg-dark); color: var(--color-text-on-dark);
+      background: #0DCBAA; color: #002926;
       text-align: center; padding: 4rem 1.25rem;
     }
-    #final-cta h2 { font-family: var(--font-headline); font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 400; margin-bottom: 2rem; }
+    #final-cta h2 { font-family: var(--font-headline); font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 400; color: #002926; margin-bottom: 2rem; }
     .cta-buttons   { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
 
     /* ─── Footer ────────────────────────────────────────────── */
@@ -278,6 +277,8 @@ const CONTENT = {
 
   /* ── Testimonials ────────────────────────────────────────── */
   testimonialsHeadline: "Das sagen unsere Teilnehmenden",
+  testimonialImageSrc: "testimonial.png",
+  testimonialImageAlt: "Oviva Teilnehmende",
   testimonials: [
     {
       result: "-16 kg",
@@ -467,15 +468,17 @@ const CONTENT = {
   document.getElementById('benefits-cta').href        = c.benefitsCtaHref;
 
   /* App features */
+  const arrowSVG = `<svg class="arrow-icon" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.707 5.707a1 1 0 0 0-1.414 0l-.35.35a1 1 0 0 0 0 1.415L19.212 13.75H5.375a.875.875 0 0 0-.875.875v.75c0 .483.392.875.875.875h13.837l-6.279 6.268a1 1 0 0 0 0 1.414l.36.36a1 1 0 0 0 1.414 0l8.586-8.586a1 1 0 0 0 0-1.414L15.707 5.707Z" fill="currentColor"/></svg>`;
   document.getElementById('app-features-headline').textContent = c.appFeaturesHeadline;
   document.getElementById('app-features-list').innerHTML =
-    c.appFeatures.map(f => `<li>${f}</li>`).join('');
+    c.appFeatures.map(f => `<li>${arrowSVG}${f}</li>`).join('');
 
   /* Testimonials */
   document.getElementById('testimonials-headline').textContent = c.testimonialsHeadline;
   document.getElementById('testimonials-grid').innerHTML =
     c.testimonials.map(t => `
       <div class="testimonial-card">
+        <img class="testimonial-img" src="${c.testimonialImageSrc}" alt="${c.testimonialImageAlt}" />
         <div class="testimonial-result">${t.result}</div>
         <div class="testimonial-name">${t.name} &middot; <em>${t.role}</em></div>
         <p class="testimonial-quote">"${t.quote}"</p>
