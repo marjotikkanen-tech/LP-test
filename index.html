@@ -518,7 +518,7 @@ const CONTENT = {
   const track = document.getElementById('carousel-track');
   const dotsEl = document.getElementById('carousel-dots');
   track.innerHTML = c.appSlides.map(s =>
-    `<div class="carousel-slide"><img src="${s.img}" alt="${s.title}" /></div>`
+    `<div class="carousel-slide"><h3>${s.title}</h3><img src="${s.img}" alt="${s.title}" /></div>`
   ).join('');
   dotsEl.innerHTML = c.appSlides.map((_, i) =>
     `<button class="carousel-dot${i === 0 ? ' active' : ''}" data-i="${i}" aria-label="Slide ${i+1}"></button>`
