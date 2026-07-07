@@ -120,23 +120,18 @@
       padding-top: 3rem; padding-bottom: 3rem;
     }
     .hero-text   { display: flex; flex-direction: column; gap: 1rem; }
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--color-accent);
-    }
-    .hero-eyebrow::before {
-      content: ''; display: block; width: 20px; height: 2px;
-      background: var(--color-accent); border-radius: 2px;
-    }
     .hero-text h1 { font-family: var(--font-headline); font-size: clamp(2rem, 5vw, 3.25rem); line-height: 1.1; font-weight: 400; color: #002926; }
-    .hero-text h1 em { font-style: italic; color: var(--color-accent); }
     .hero-text h2 { font-size: clamp(1.1rem, 2.5vw, 1.4rem); font-weight: 500; color: #002926; }
     .hero-text p  { font-size: 1.05rem; font-weight: 400; max-width: 560px; color: #002926; }
+    .hero-image   { border-radius: var(--radius-card); overflow: hidden; }
+    .hero-image img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
 
     /* pulsing CTA button */
     .btn-pulse-outer {
       position: relative; display: inline-block;
+    }
+    @media (max-width: 767px) {
+      .btn-pulse-outer { display: flex; justify-content: center; }
     }
     .btn-pulse-outer::before,
     .btn-pulse-outer::after {
@@ -155,64 +150,6 @@
       .btn-pulse-outer::after { animation: none; }
     }
     .btn-pulse-outer .btn { position: relative; z-index: 1; }
-
-    /* hero image — organic blob crop */
-    .hero-image-wrap {
-      position: relative; display: flex; align-items: center; justify-content: center;
-    }
-    .hero-image {
-      width: 100%; max-width: 480px;
-      aspect-ratio: 4/5;
-      border-radius: 60% 40% 55% 45% / 50% 55% 45% 50%;
-      overflow: hidden;
-      background: var(--color-bg-trust);
-      box-shadow: 0 20px 64px rgba(0,41,38,0.12), 0 4px 16px rgba(0,41,38,0.06);
-    }
-    .hero-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-    /* floating stat chips */
-    .hero-stat {
-      position: absolute;
-      background: var(--color-neutral-warm);
-      border: 1px solid rgba(0,41,38,0.08);
-      border-radius: 14px;
-      padding: 0.7rem 1rem;
-      box-shadow: 0 8px 28px rgba(0,41,38,0.11);
-      display: flex; align-items: center; gap: 0.6rem;
-    }
-    .hero-stat--steps { bottom: 10%; left: -6%; }
-    .hero-stat--result {
-      top: 8%; right: -4%;
-      background: var(--color-accent);
-      border-color: transparent;
-      flex-direction: column; align-items: center; gap: 0.1rem;
-      padding: 0.65rem 0.9rem;
-      box-shadow: 0 8px 28px rgba(244,127,86,0.35);
-    }
-    .hero-stat__icon {
-      width: 34px; height: 34px; border-radius: 9px;
-      background: var(--color-bg-trust);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; flex-shrink: 0;
-    }
-    .hero-stat__body { display: flex; flex-direction: column; gap: 0.1rem; }
-    .hero-stat__val {
-      font-size: 1.05rem; font-weight: 800; color: var(--color-text-primary);
-      line-height: 1; font-variant-numeric: tabular-nums;
-    }
-    .hero-stat__lbl {
-      font-size: 0.68rem; font-weight: 500; color: var(--color-text-secondary);
-      letter-spacing: 0.02em;
-    }
-    .hero-stat--result .hero-stat__val { color: #fff; font-size: 1.1rem; }
-    .hero-stat--result .hero-stat__lbl { color: rgba(255,255,255,0.82); text-align: center; }
-
-    /* ambient circle behind blob */
-    .hero-image-wrap::before {
-      content: ''; position: absolute;
-      width: 85%; aspect-ratio: 1; border-radius: 50%;
-      background: rgba(180,234,204,0.28); z-index: -1; top: 5%; left: 5%;
-    }
 
     /* ─── Feature spotlight ─────────────────────────────────── */
     .feature-section .inner {
@@ -325,7 +262,7 @@
     @media (min-width: 768px) {
       #hero .inner           { flex-direction: row; align-items: center; }
       .hero-text             { max-width: 540px; }
-      .hero-image-wrap       { flex: 1; }
+      .hero-image            { flex: 1; }
       .feature-section .inner{ flex-direction: row; align-items: center; }
       .feature-text          { flex: 1; }
       .testimonials-grid     { flex-direction: row; }
@@ -361,7 +298,6 @@ const CONTENT = {
   trustBrands: ["BARMER", "Techniker Krankenkasse", "AOK", "IKK classic"],
 
   /* ── Hero ────────────────────────────────────────────────── */
-  heroEyebrow:     "DiGA auf Rezept",
   heroHeadline:    "Schritt für Schritt zum Wunschgewicht",
   heroSubheadline: "Schritte zählen ist ein Anfang. Mit Oviva wird mehr daraus.",
   heroBody:        "Oviva verbindet Schritte mit Ernährung, Wohlbefinden und neuen Gewohnheiten. Wissenschaftlich fundiert, kostenlos auf Rezept.",
@@ -369,10 +305,6 @@ const CONTENT = {
   heroCtaHref:     "https://start.oviva.com/ui/bmi_first",
   heroImageSrc:    "https://start.oviva.com/ui/_next/image?url=%2Fui%2Fimages%2Fstep-counter-hero.webp&w=1200&q=75",
   heroImageAlt:    "Eine Frau, die auf ihrem Handy ihre Schritte überprüft.",
-  heroStatStepsVal: "8.432",
-  heroStatStepsLbl: "Schritte heute",
-  heroStatResultVal: "−4,2 kg",
-  heroStatResultLbl: "nach 8 Wochen",
 
   /* ── Feature spotlight ───────────────────────────────────── */
   featureHeadline: "Aktivitätskompass: Jede Bewegung zählt.",
@@ -477,7 +409,6 @@ const CONTENT = {
 <section id="hero">
   <div class="inner">
     <div class="hero-text">
-      <span class="hero-eyebrow" id="hero-eyebrow"></span>
       <h1 id="hero-headline"></h1>
       <h2 id="hero-subheadline"></h2>
       <p  id="hero-body"></p>
@@ -487,21 +418,8 @@ const CONTENT = {
         </div>
       </div>
     </div>
-    <div class="hero-image-wrap">
-      <div class="hero-image">
-        <img id="hero-image" src="" alt="" />
-      </div>
-      <div class="hero-stat hero-stat--steps" aria-hidden="true">
-        <div class="hero-stat__icon">👟</div>
-        <div class="hero-stat__body">
-          <span class="hero-stat__val" id="hero-stat-steps-val"></span>
-          <span class="hero-stat__lbl" id="hero-stat-steps-lbl"></span>
-        </div>
-      </div>
-      <div class="hero-stat hero-stat--result" aria-hidden="true">
-        <span class="hero-stat__val" id="hero-stat-result-val"></span>
-        <span class="hero-stat__lbl" id="hero-stat-result-lbl"></span>
-      </div>
+    <div class="hero-image">
+      <img id="hero-image" src="" alt="" />
     </div>
   </div>
 </section>
@@ -590,18 +508,13 @@ const CONTENT = {
     c.trustBrands.map(b => `<span>${b}</span>`).join('');
 
   /* Hero */
-  document.getElementById('hero-eyebrow').textContent         = c.heroEyebrow;
-  document.getElementById('hero-headline').innerHTML          = c.heroHeadline.replace('Wunschgewicht', '<em>Wunschgewicht</em>');
-  document.getElementById('hero-subheadline').textContent     = c.heroSubheadline;
-  document.getElementById('hero-body').textContent            = c.heroBody;
-  document.getElementById('hero-cta').textContent             = c.heroCtaLabel;
-  document.getElementById('hero-cta').href                    = c.heroCtaHref;
-  document.getElementById('hero-image').src                   = c.heroImageSrc;
-  document.getElementById('hero-image').alt                   = c.heroImageAlt;
-  document.getElementById('hero-stat-steps-val').textContent  = c.heroStatStepsVal;
-  document.getElementById('hero-stat-steps-lbl').textContent  = c.heroStatStepsLbl;
-  document.getElementById('hero-stat-result-val').textContent = c.heroStatResultVal;
-  document.getElementById('hero-stat-result-lbl').textContent = c.heroStatResultLbl;
+  document.getElementById('hero-headline').textContent    = c.heroHeadline;
+  document.getElementById('hero-subheadline').textContent = c.heroSubheadline;
+  document.getElementById('hero-body').textContent        = c.heroBody;
+  document.getElementById('hero-cta').textContent         = c.heroCtaLabel;
+  document.getElementById('hero-cta').href                = c.heroCtaHref;
+  document.getElementById('hero-image').src               = c.heroImageSrc;
+  document.getElementById('hero-image').alt               = c.heroImageAlt;
 
   /* Feature spotlight */
   document.getElementById('feature-headline').textContent = c.featureHeadline;
