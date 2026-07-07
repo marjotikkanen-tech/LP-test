@@ -126,6 +126,31 @@
     .hero-image   { border-radius: var(--radius-card); overflow: hidden; }
     .hero-image img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
 
+    /* pulsing CTA button */
+    .btn-pulse-outer {
+      position: relative; display: inline-block;
+    }
+    @media (max-width: 767px) {
+      .btn-pulse-outer { display: flex; justify-content: center; }
+    }
+    .btn-pulse-outer::before,
+    .btn-pulse-outer::after {
+      content: ''; position: absolute; inset: 0; border-radius: 999px;
+      background: var(--color-accent); opacity: 0; z-index: 0;
+      animation: hero-pulse-ring 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+    }
+    .btn-pulse-outer::after { animation-delay: 0.8s; }
+    @keyframes hero-pulse-ring {
+      0%   { transform: scale(1);    opacity: 0.5; }
+      80%  { transform: scale(1.6);  opacity: 0;   }
+      100% { transform: scale(1.6);  opacity: 0;   }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn-pulse-outer::before,
+      .btn-pulse-outer::after { animation: none; }
+    }
+    .btn-pulse-outer .btn { position: relative; z-index: 1; }
+
     /* ─── Feature spotlight ─────────────────────────────────── */
     .feature-section .inner {
       display: flex; flex-direction: column; gap: 2rem;
@@ -388,7 +413,9 @@ const CONTENT = {
       <h2 id="hero-subheadline"></h2>
       <p  id="hero-body"></p>
       <div>
-        <a id="hero-cta" class="btn btn-primary" href="#"></a>
+        <div class="btn-pulse-outer">
+          <a id="hero-cta" class="btn btn-primary" href="#"></a>
+        </div>
       </div>
     </div>
     <div class="hero-image">
