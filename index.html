@@ -269,6 +269,284 @@
       .testimonial-card      { flex: 1; }
       #benefits h2           { text-align: center; }
     }
+
+    /* ─── Nutrition Compass section ─────────────────────────── */
+    #nutrition-compass {
+      background: var(--color-bg-dark);
+      color: var(--color-text-on-dark);
+      padding: 4rem 0;
+    }
+    #nutrition-compass .inner {
+      display: flex; flex-direction: column; gap: 2.5rem;
+    }
+    @media (min-width: 820px) {
+      #nutrition-compass .inner { flex-direction: row; align-items: center; gap: 3.5rem; }
+      .nc-text  { flex: 1.1; }
+      .nc-widget-wrap { flex: 0.9; }
+    }
+
+    .nc-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--color-bg-dark);
+      background: #B4EACC;
+      padding: 6px 14px; border-radius: 100px;
+      margin-bottom: 18px;
+    }
+    #nutrition-compass h2 {
+      font-family: var(--font-headline);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 400; line-height: 1.1;
+      color: var(--color-text-on-dark);
+      margin-bottom: 16px;
+    }
+    #nutrition-compass h2 em {
+      font-style: italic;
+      color: #B4EACC;
+    }
+    #nutrition-compass .nc-lede {
+      font-size: 1.05rem; line-height: 1.6;
+      color: rgba(253,249,243,0.75);
+      max-width: 38ch; margin-bottom: 10px;
+    }
+
+    /* Widget card */
+    .nc-widget {
+      background: #FDF9F3;
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 28px 64px -20px rgba(0,0,0,0.45);
+      position: relative; overflow: hidden;
+    }
+    .nc-widget::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(110% 80% at 90% 0%, rgba(244,127,86,0.12), transparent 55%);
+      pointer-events: none;
+    }
+    .nc-widget-tag {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--color-accent);
+      display: flex; align-items: center; gap: 6px;
+      margin-bottom: 12px;
+    }
+    .nc-widget h3 {
+      font-family: var(--font-headline);
+      font-size: 20px; font-weight: 400;
+      color: #002926; margin-bottom: 6px;
+    }
+    .nc-widget p {
+      font-size: 14px; color: #6C6C70;
+      margin-bottom: 18px;
+    }
+    .nc-mini-dials {
+      display: flex; justify-content: space-between; gap: 4px;
+      padding: 14px 10px 10px;
+      background: #F6EDDE;
+      border-radius: 14px; margin-bottom: 18px;
+    }
+    .nc-mini-dials .nc-dial-label { font-size: 10px; }
+    .nc-mini-dials .nc-dial-status { font-size: 9.5px; }
+
+    /* Widget CTA button — uses existing .btn-primary but overridden here */
+    .nc-widget .btn {
+      border: none; cursor: pointer;
+      font-family: var(--font-family);
+      font-weight: 700; font-size: 15px;
+      border-radius: var(--radius-btn);
+      padding: 14px 22px;
+      transition: transform .15s, box-shadow .2s, background .2s;
+    }
+    .nc-widget .btn:active { transform: scale(0.98); }
+    .nc-widget .btn-cta {
+      background: var(--color-accent);
+      color: var(--color-text-on-accent);
+      width: 100%;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 10px 22px -8px rgba(244,127,86,0.55);
+    }
+    .nc-widget .btn-cta:hover { background: var(--color-accent-hover); color: var(--color-accent); }
+    .nc-widget .btn:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 2px; }
+
+    /* Gauge / dial component */
+    .nc-dial { text-align: center; flex: 1; }
+    .nc-gauge { width: 100%; max-width: 62px; margin: 0 auto; display: block; }
+    .nc-gauge .nc-track { fill: none; stroke: #D1D1D5; stroke-width: 7; stroke-linecap: round; }
+    .nc-gauge .nc-arc   { fill: none; stroke-width: 7; stroke-linecap: round; }
+    .nc-needle {
+      transform-origin: 50px 50px;
+      transform: rotate(-90deg);
+      transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .nc-dial-label  { font-size: 11px; font-weight: 700; margin-top: 3px; color: #002926; }
+    .nc-dial-status { font-size: 10px; font-weight: 600; }
+
+    /* Modal overlay */
+    .nc-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0, 41, 38, 0.6);
+      backdrop-filter: blur(3px);
+      display: none; align-items: flex-end; justify-content: center;
+      z-index: 200; opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .nc-overlay.open { display: flex; opacity: 1; }
+
+    .nc-modal {
+      background: #FDF9F3;
+      width: 100%; max-width: 420px; max-height: 94vh;
+      border-radius: 24px 24px 0 0;
+      overflow-y: auto;
+      transform: translateY(24px);
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      position: relative;
+    }
+    .nc-overlay.open .nc-modal { transform: translateY(0); }
+    @media (min-width: 560px) {
+      .nc-overlay { align-items: center; padding: 20px; }
+      .nc-modal   { border-radius: 24px; max-height: 92vh; }
+    }
+
+    .nc-modal-close {
+      position: absolute; top: 14px; right: 14px;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid #D1D1D5;
+      cursor: pointer; font-size: 17px;
+      color: #6C6C70;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 5; line-height: 1;
+    }
+    .nc-modal-close:hover { color: #002926; }
+
+    .nc-grab {
+      width: 38px; height: 4px; border-radius: 4px;
+      background: #D1D1D5; margin: 10px auto 0;
+    }
+    @media (min-width: 560px) { .nc-grab { display: none; } }
+
+    /* Modal screens */
+    .nc-screen { display: none; padding: 20px 20px 26px; }
+    .nc-screen.active { display: block; animation: nc-fade 0.32s ease; }
+    @keyframes nc-fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+    .nc-screen-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; color: var(--color-accent);
+      display: flex; align-items: center; gap: 6px;
+      margin-bottom: 6px;
+    }
+    .nc-screen h2 {
+      font-family: var(--font-headline);
+      font-size: 20px; font-weight: 400;
+      color: #002926; margin-bottom: 6px;
+    }
+    .nc-screen .nc-sub { font-size: 13.5px; color: #6C6C70; margin-bottom: 18px; }
+
+    /* Food picker grid */
+    .nc-foods { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .nc-food {
+      border: 1.5px solid #D1D1D5;
+      background: #fff;
+      border-radius: 16px; padding: 16px 12px;
+      cursor: pointer; text-align: center;
+      font-family: var(--font-family);
+      transition: border-color .18s, transform .15s, box-shadow .2s;
+    }
+    .nc-food:hover {
+      border-color: var(--color-accent);
+      box-shadow: 0 8px 20px -12px rgba(244,127,86,0.5);
+      transform: translateY(-2px);
+    }
+    .nc-food:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 2px; }
+    .nc-food .nc-emoji {
+      font-size: 44px; display: block;
+      margin-bottom: 8px;
+      filter: drop-shadow(0 5px 8px rgba(0,0,0,0.10));
+    }
+    .nc-food .nc-name { font-weight: 700; font-size: 14px; color: #002926; }
+    .nc-food .nc-desc { font-size: 12px; color: #6C6C70; margin-top: 2px; }
+
+    /* Loading screen */
+    .nc-loader-wrap { text-align: center; padding: 40px 10px 36px; }
+    .nc-compass-anim {
+      width: 88px; height: 88px;
+      margin: 0 auto 22px; position: relative;
+    }
+    .nc-compass-anim .nc-ring {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      border: 3px solid #B4EACC;
+      box-shadow: inset 0 0 0 6px #fff;
+    }
+    .nc-compass-anim .nc-spin {
+      position: absolute; inset: 0;
+      animation: nc-spin 1.15s cubic-bezier(0.5,0,0.5,1) infinite;
+    }
+    @keyframes nc-spin { to { transform: rotate(360deg); } }
+    .nc-compass-anim .nc-spin svg { width: 100%; height: 100%; }
+    .nc-loader-msg { font-size: 15px; font-weight: 600; color: #002926; min-height: 22px; }
+    .nc-loader-sub { font-size: 13px; color: #6C6C70; margin-top: 4px; }
+
+    /* Result screen */
+    .nc-result-photo {
+      height: 110px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 66px; margin-bottom: 14px;
+      background: #B4EACC;
+    }
+    .nc-result-desc-label { font-weight: 700; font-size: 14px; color: #002926; margin-bottom: 8px; }
+    .nc-result-desc {
+      list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px;
+    }
+    .nc-result-desc li {
+      font-size: 12.5px; color: #6C6C70;
+      background: #F6EDDE; border-radius: 100px;
+      padding: 4px 11px;
+    }
+    .nc-feedback-label { font-weight: 700; font-size: 14px; color: #002926; margin-bottom: 10px; }
+    .nc-dials-row {
+      display: flex; justify-content: space-between; gap: 4px;
+      padding-bottom: 4px; margin-bottom: 18px;
+    }
+
+    /* AI nudge card */
+    .nc-nudge {
+      background: #FEF0EA;
+      border-radius: 16px; padding: 16px;
+      margin-bottom: 20px; position: relative;
+    }
+    .nc-nudge-head {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 12px; font-weight: 700;
+      color: var(--color-accent); margin-bottom: 7px;
+      letter-spacing: 0.01em;
+    }
+    .nc-nudge-body { font-size: 14px; line-height: 1.55; color: #002926; }
+    .nc-nudge-body strong { color: var(--color-accent); font-weight: 700; }
+
+    .nc-cta-note {
+      text-align: center; font-size: 12px;
+      color: #6C6C70; margin-top: 8px;
+    }
+    .nc-cta-note a {
+      color: #002926; text-decoration: underline; cursor: pointer;
+    }
+
+    .nc-restart {
+      background: none; border: none; cursor: pointer;
+      font-family: var(--font-family); font-size: 13.5px; font-weight: 600;
+      color: #6C6C70; margin-top: 4px;
+      display: flex; align-items: center; gap: 5px; padding: 6px 0;
+    }
+    .nc-restart:hover { color: #002926; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .nc-needle         { transition: none !important; }
+      .nc-compass-anim .nc-spin { animation: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -313,6 +591,52 @@ const CONTENT = {
   featureCtaHref:  "https://start.oviva.com/ui/bmi_first",
   featureImageSrc: "https://start.oviva.com/ui/_next/image?url=%2Fui%2Fimages%2Ffeature-activity-compass.webp&w=750&q=75",
   featureImageAlt: "Aktivitätskompass-Funktion der Oviva App auf einem Smartphone.",
+
+  /* ── Nutrition Compass ───────────────────────────────────── */
+  compassEyebrow:   "🧭 Ernährungskompass",
+  compassHeadline:  "Keine guten Lebensmittel. Keine schlechten. Nur Balance.",
+  compassBody:      "Oviva analysiert deine Mahlzeit und zeigt dir eine kleine Ergänzung – keine Verbotsliste, sondern einen konkreten Tipp.",
+  compassWidgetTag: "✦ Jetzt ausprobieren – ohne Anmeldung",
+  compassWidgetTitle: "Wie ausgewogen ist deine Mahlzeit?",
+  compassWidgetDesc:  "Wähle etwas, das du heute Abend essen würdest, und erhalte echtes Feedback in Sekunden.",
+  compassOpenLabel:   "Ernährungskompass starten",
+  compassNutrients:   ["Kohlen.", "Fett", "Protein", "Ballaststoffe", "Zucker"],
+  compassMeals: {
+    salad: {
+      emoji: "🥗", name: "Grüner Salat", short: "Leicht & frisch",
+      desc: ["Blattsalat-Mix", "Kirschtomaten", "Gurke", "Leichtes Dressing"],
+      dials: { "Kohlen.": "low", "Fett": "low", "Protein": "low", "Ballaststoffe": "good", "Zucker": "low" },
+      nudge: "Ein frischer, leichter Start. Proteinarm – füge <strong>Kichererbsen, ein Ei oder eine Handvoll Nüsse</strong> hinzu, damit du länger satt bleibst."
+    },
+    sandwich: {
+      emoji: "🥪", name: "Sandwich", short: "Ein solides Mittagessen",
+      desc: ["Vollkornbrot", "Hähnchen & Käse", "Salat & Tomate", "Etwas Mayonnaise"],
+      dials: { "Kohlen.": "good", "Fett": "good", "Protein": "good", "Ballaststoffe": "low", "Zucker": "low" },
+      nudge: "Gut ausgewogen – Kohlenhydrate, Protein und Fett stimmen. Ergänze <strong>eine Beilage Gemüse oder extra Salatblätter</strong> für mehr Ballaststoffe."
+    },
+    pizza: {
+      emoji: "🍕", name: "Pizza", short: "Freitagsgefühl",
+      desc: ["2 Scheiben Margherita", "Tomate & Mozzarella", "Frisches Basilikum", "Olivenöl"],
+      dials: { "Kohlen.": "high", "Fett": "good", "Protein": "good", "Ballaststoffe": "low", "Zucker": "low" },
+      nudge: "Pizza-Abend? Alles gut. Füge <strong>einen einfachen Beilagensalat oder etwas Rucola obendrauf</strong> hinzu – ohne den Genuss zu schmälern."
+    },
+    beer: {
+      emoji: "🍺", name: "Ein Bier", short: "Entspannung",
+      desc: ["Ein Lager (0,5l)", "Mit Freunden"],
+      dials: { "Kohlen.": "high", "Fett": "low", "Protein": "low", "Ballaststoffe": "low", "Zucker": "good" },
+      nudge: "Ein Bier genießen? Kein Problem. Wenn es abends ist, hilft <strong>eine richtige Mahlzeit dazu</strong> – mit Protein und Gemüse – damit du dich morgen bestens fühlst."
+    }
+  },
+  compassLoaderMsgs:    ["Mahlzeit wird analysiert…", "Nährstoffe werden gewogen…", "Ein einfacher Tipp wird gesucht…"],
+  compassLoaderSub:     "Gleichgewicht über fünf Nährstoffe wird geprüft",
+  compassResultMealLabel: "Deine Mahlzeit",
+  compassFeedbackLabel:   "Mahlzeiten-Feedback",
+  compassNudgeHead:       "✦ Dein Kompass sagt",
+  compassFunnelLabel:     "Prüfen, ob Oviva für dich übernommen wird",
+  compassTryAnother:      "Andere Mahlzeit ausprobieren",
+  compassCtaNote:         "Dauert 2 Minuten · ",
+  compassStatusLabels: { low: "Niedrig", good: "Gut", high: "Hoch" },
+  compassPreviewStatuses: ["good", "low", "good", "low", "high"],
 
   /* ── Benefits ────────────────────────────────────────────── */
   benefitsHeadline: "Bewegung ist der Anfang. So unterstützt dich Oviva beim Abnehmen.",
@@ -439,6 +763,75 @@ const CONTENT = {
     </div>
   </div>
 </section>
+
+<!-- Nutrition Compass -->
+<section id="nutrition-compass">
+  <div class="inner">
+    <div class="nc-text">
+      <span class="nc-eyebrow" id="nc-eyebrow"></span>
+      <h2 id="nc-headline"></h2>
+      <p class="nc-lede" id="nc-lede"></p>
+    </div>
+    <div class="nc-widget-wrap">
+      <div class="nc-widget">
+        <div class="nc-widget-tag" id="nc-widget-tag"></div>
+        <h3 id="nc-widget-title"></h3>
+        <p id="nc-widget-desc"></p>
+        <div class="nc-mini-dials" id="nc-mini-dials"></div>
+        <button class="btn btn-cta" id="nc-open-demo" style="width:100%;"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Nutrition Compass Modal -->
+<div class="nc-overlay" id="nc-overlay" role="dialog" aria-modal="true" aria-label="Ernährungskompass Demo">
+  <div class="nc-modal" id="nc-modal">
+    <div class="nc-grab"></div>
+    <button class="nc-modal-close" id="nc-close-demo" aria-label="Demo schließen">✕</button>
+
+    <!-- Screen 1: food picker -->
+    <section class="nc-screen active" id="nc-screen-pick">
+      <div class="nc-screen-eyebrow">🧭 Ernährungskompass</div>
+      <h2 id="nc-pick-title"></h2>
+      <p class="nc-sub" id="nc-pick-sub"></p>
+      <div class="nc-foods" id="nc-food-grid"></div>
+    </section>
+
+    <!-- Screen 2: loading -->
+    <section class="nc-screen" id="nc-screen-loading">
+      <div class="nc-loader-wrap">
+        <div class="nc-compass-anim">
+          <div class="nc-ring"></div>
+          <div class="nc-spin">
+            <svg viewBox="0 0 92 92" aria-hidden="true">
+              <polygon points="46,16 52,46 46,42 40,46" fill="#F47F56"/>
+              <polygon points="46,76 52,46 46,50 40,46" fill="#F6EDDE"/>
+              <circle cx="46" cy="46" r="5" fill="#fff" stroke="#F47F56" stroke-width="2.5"/>
+            </svg>
+          </div>
+        </div>
+        <div class="nc-loader-msg" id="nc-loader-msg"></div>
+        <div class="nc-loader-sub" id="nc-loader-sub"></div>
+      </div>
+    </section>
+
+    <!-- Screen 3: result -->
+    <section class="nc-screen" id="nc-screen-result">
+      <div class="nc-result-photo" id="nc-result-photo"></div>
+      <div class="nc-result-desc-label" id="nc-result-meal-label"></div>
+      <ul class="nc-result-desc" id="nc-result-desc"></ul>
+      <div class="nc-feedback-label" id="nc-feedback-label"></div>
+      <div class="nc-dials-row" id="nc-result-dials"></div>
+      <div class="nc-nudge">
+        <div class="nc-nudge-head" id="nc-nudge-head"></div>
+        <div class="nc-nudge-body" id="nc-nudge-body"></div>
+      </div>
+      <button class="btn btn-cta" id="nc-start-funnel" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-family);font-weight:700;font-size:15px;border-radius:999px;padding:14px 22px;background:var(--color-accent);color:var(--color-text-on-accent);border:none;cursor:pointer;box-shadow:0 10px 22px -8px rgba(244,127,86,0.55);"></button>
+      <div class="nc-cta-note" id="nc-cta-note"></div>
+    </section>
+  </div>
+</div>
 
 <!-- Benefits -->
 <section id="benefits" class="section">
@@ -609,6 +1002,149 @@ const CONTENT = {
   /* Footer */
   document.getElementById('footer-links').innerHTML =
     c.footerLinks.map(l => `<a href="${l.href}">${l.label}</a>`).join('');
+})();
+</script>
+
+<script>
+/* ── Nutrition Compass ──────────────────────────────────────── */
+(function initCompass() {
+  const c = CONTENT;
+
+  /* Status config using Oviva palette */
+  const STATUS = {
+    low:  { label: c.compassStatusLabels.low,  color: "#F47F56", angle: -52 },
+    good: { label: c.compassStatusLabels.good, color: "#0DCBAA", angle: 0   },
+    high: { label: c.compassStatusLabels.high, color: "#E05C3A", angle: 52  }
+  };
+
+  /* Build gauge SVG */
+  function gauge(status, animate) {
+    const s = STATUS[status];
+    const startAngle = animate ? -90 : s.angle;
+    return `
+      <svg class="nc-gauge" viewBox="0 0 100 62" role="img" aria-label="${s.label}">
+        <path class="nc-track" d="M12,50 A38,38 0 0 1 88,50"/>
+        <line class="nc-needle" x1="50" y1="50" x2="50" y2="16"
+              stroke="${s.color}" stroke-width="4.5" stroke-linecap="round"
+              style="transform-origin:50px 50px;transform:rotate(${startAngle}deg)"/>
+        <circle cx="50" cy="50" r="4.5" fill="${s.color}"/>
+      </svg>`;
+  }
+
+  function dialBlock(nutrient, status, animate, mini) {
+    const s = STATUS[status];
+    const labelClass  = mini ? "nc-dial-label"  : "nc-dial-label";
+    const statusClass = mini ? "nc-dial-status" : "nc-dial-status";
+    return `
+      <div class="nc-dial" data-status="${status}">
+        ${gauge(status, animate)}
+        <div class="${labelClass}">${nutrient}</div>
+        <div class="${statusClass}" style="color:${s.color}">${s.label}</div>
+      </div>`;
+  }
+
+  /* Static section copy */
+  document.getElementById("nc-eyebrow").textContent     = c.compassEyebrow;
+  document.getElementById("nc-headline").innerHTML      = c.compassHeadline
+    .replace("Keine guten Lebensmittel. Keine schlechten.", "Keine guten Lebensmittel.<br>Keine schlechten.")
+    .replace("Nur Balance.", "<em>Nur Balance.</em>");
+  document.getElementById("nc-lede").textContent        = c.compassBody;
+  document.getElementById("nc-widget-tag").textContent  = c.compassWidgetTag;
+  document.getElementById("nc-widget-title").textContent= c.compassWidgetTitle;
+  document.getElementById("nc-widget-desc").textContent = c.compassWidgetDesc;
+
+  const openBtn = document.getElementById("nc-open-demo");
+  openBtn.textContent = c.compassOpenLabel;
+  openBtn.insertAdjacentHTML("beforeend", ' <span aria-hidden="true">→</span>');
+
+  /* Mini-dials preview */
+  document.getElementById("nc-mini-dials").innerHTML =
+    c.compassNutrients.map((n, i) => dialBlock(n, c.compassPreviewStatuses[i], false, true)).join("");
+
+  /* Food grid */
+  document.getElementById("nc-pick-title").textContent = c.compassWidgetTitle;
+  document.getElementById("nc-pick-sub").textContent   = c.compassWidgetDesc;
+  document.getElementById("nc-food-grid").innerHTML    = Object.entries(c.compassMeals).map(([key, m]) => `
+    <button class="nc-food" data-meal="${key}" aria-label="${m.name} wählen">
+      <span class="nc-emoji" aria-hidden="true">${m.emoji}</span>
+      <span class="nc-name">${m.name}</span>
+      <span class="nc-desc">${m.short}</span>
+    </button>`).join("");
+
+  /* Static modal labels */
+  document.getElementById("nc-loader-sub").textContent       = c.compassLoaderSub;
+  document.getElementById("nc-result-meal-label").textContent= c.compassResultMealLabel;
+  document.getElementById("nc-feedback-label").textContent   = c.compassFeedbackLabel;
+  document.getElementById("nc-nudge-head").textContent       = c.compassNudgeHead;
+  const funnelBtn = document.getElementById("nc-start-funnel");
+  funnelBtn.textContent = c.compassFunnelLabel;
+  funnelBtn.insertAdjacentHTML("beforeend", ' <span aria-hidden="true">→</span>');
+  document.getElementById("nc-cta-note").innerHTML =
+    c.compassCtaNote + `<a id="nc-try-another">${c.compassTryAnother}</a>`;
+
+  /* Modal open/close */
+  const overlay = document.getElementById("nc-overlay");
+  const modal   = document.getElementById("nc-modal");
+
+  function ncShow(id) {
+    document.querySelectorAll(".nc-screen").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    modal.scrollTop = 0;
+  }
+  function ncOpen()  { overlay.classList.add("open"); ncShow("nc-screen-pick"); document.body.style.overflow = "hidden"; }
+  function ncClose() { overlay.classList.remove("open"); document.body.style.overflow = ""; }
+
+  openBtn.addEventListener("click", ncOpen);
+  document.getElementById("nc-close-demo").addEventListener("click", ncClose);
+  overlay.addEventListener("click", e => { if (e.target === overlay) ncClose(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") ncClose(); });
+
+  /* Food pick → loading → result */
+  document.querySelectorAll(".nc-food").forEach(btn => {
+    btn.addEventListener("click", () => runResult(btn.dataset.meal));
+  });
+
+  function runResult(key) {
+    const meal = c.compassMeals[key];
+    ncShow("nc-screen-loading");
+
+    const msgEl = document.getElementById("nc-loader-msg");
+    let i = 0; msgEl.textContent = c.compassLoaderMsgs[0];
+    const cycle = setInterval(() => {
+      i++; if (i < c.compassLoaderMsgs.length) msgEl.textContent = c.compassLoaderMsgs[i];
+    }, 620);
+
+    setTimeout(() => {
+      clearInterval(cycle);
+      renderResult(meal);
+      ncShow("nc-screen-result");
+    }, 1900);
+  }
+
+  function renderResult(meal) {
+    document.getElementById("nc-result-photo").textContent = meal.emoji;
+    document.getElementById("nc-result-desc").innerHTML =
+      meal.desc.map(d => `<li>${d}</li>`).join("");
+    document.getElementById("nc-result-dials").innerHTML =
+      c.compassNutrients.map(n => dialBlock(n, meal.dials[n], true, false)).join("");
+    document.getElementById("nc-nudge-body").innerHTML = meal.nudge;
+
+    requestAnimationFrame(() => {
+      document.querySelectorAll("#nc-result-dials .nc-needle").forEach((needle, idx) => {
+        const status = needle.closest(".nc-dial").dataset.status;
+        const target = STATUS[status].angle;
+        setTimeout(() => { needle.style.transform = `rotate(${target}deg)`; }, 120 + idx * 130);
+      });
+    });
+  }
+
+  /* Try another / funnel */
+  document.getElementById("nc-cta-note").addEventListener("click", e => {
+    if (e.target.id === "nc-try-another") ncShow("nc-screen-pick");
+  });
+  funnelBtn.addEventListener("click", () => {
+    window.location.href = "https://start.oviva.com/ui/bmi_first";
+  });
 })();
 </script>
 
