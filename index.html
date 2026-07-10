@@ -126,31 +126,6 @@
     .hero-image   { border-radius: var(--radius-card); overflow: hidden; }
     .hero-image img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
 
-    /* pulsing CTA button */
-    .btn-pulse-outer {
-      position: relative; display: inline-block;
-    }
-    @media (max-width: 767px) {
-      .btn-pulse-outer { display: flex; justify-content: center; }
-    }
-    .btn-pulse-outer::before,
-    .btn-pulse-outer::after {
-      content: ''; position: absolute; inset: 0; border-radius: 999px;
-      background: var(--color-accent); opacity: 0; z-index: 0;
-      animation: hero-pulse-ring 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-    }
-    .btn-pulse-outer::after { animation-delay: 0.8s; }
-    @keyframes hero-pulse-ring {
-      0%   { transform: scale(1);    opacity: 0.5; }
-      80%  { transform: scale(1.6);  opacity: 0;   }
-      100% { transform: scale(1.6);  opacity: 0;   }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .btn-pulse-outer::before,
-      .btn-pulse-outer::after { animation: none; }
-    }
-    .btn-pulse-outer .btn { position: relative; z-index: 1; }
-
     /* ─── Feature spotlight ─────────────────────────────────── */
     .feature-section .inner {
       display: flex; flex-direction: column; gap: 2rem;
@@ -577,9 +552,7 @@ const CONTENT = {
   trustBrands: ["BARMER", "Techniker Krankenkasse", "AOK", "IKK classic"],
 
   /* ── Hero ────────────────────────────────────────────────── */
-  heroHeadline:    "Schritt für Schritt zum Wunschgewicht",
-  heroSubheadline: "Schritte zählen ist ein Anfang. Mit Oviva wird mehr daraus.",
-  heroBody:        "Oviva verbindet Schritte mit Ernährung, Wohlbefinden und neuen Gewohnheiten. Wissenschaftlich fundiert, kostenlos auf Rezept.",
+  heroHeadline:    "Kostenlos für alle Versicherten der BARMER, AOK, Techniker Krankenkasse und über 40 weiteren Krankenkassen",
   heroCtaLabel:    "Jetzt kostenlos starten",
   heroCtaHref:     "https://start.oviva.com/ui/bmi_first",
   heroImageSrc:    "https://start.oviva.com/ui/_next/image?url=%2Fui%2Fimages%2Fstep-counter-hero.webp&w=1200&q=75",
@@ -739,12 +712,8 @@ const CONTENT = {
   <div class="inner">
     <div class="hero-text">
       <h1 id="hero-headline"></h1>
-      <h2 id="hero-subheadline"></h2>
-      <p  id="hero-body"></p>
       <div>
-        <div class="btn-pulse-outer">
-          <a id="hero-cta" class="btn btn-primary" href="#"></a>
-        </div>
+        <a id="hero-cta" class="btn btn-primary" href="#"></a>
       </div>
     </div>
     <div class="hero-image">
@@ -907,8 +876,6 @@ const CONTENT = {
 
   /* Hero */
   document.getElementById('hero-headline').textContent    = c.heroHeadline;
-  document.getElementById('hero-subheadline').textContent = c.heroSubheadline;
-  document.getElementById('hero-body').textContent        = c.heroBody;
   document.getElementById('hero-cta').textContent         = c.heroCtaLabel;
   document.getElementById('hero-cta').href                = c.heroCtaHref;
   document.getElementById('hero-image').src               = c.heroImageSrc;
