@@ -461,10 +461,10 @@
       transform: translateY(-2px);
     }
     .nc-food:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 2px; }
-    .nc-food .nc-emoji {
-      font-size: 44px; display: block;
-      margin-bottom: 8px;
-      filter: drop-shadow(0 5px 8px rgba(0,0,0,0.10));
+    .nc-food .nc-food-img {
+      width: 100%; height: 90px;
+      object-fit: cover; border-radius: 10px;
+      display: block; margin-bottom: 10px;
     }
     .nc-food .nc-name { font-weight: 700; font-size: 14px; color: #002926; }
     .nc-food .nc-desc { font-size: 12px; color: #6C6C70; margin-top: 2px; }
@@ -492,10 +492,11 @@
 
     /* Result screen */
     .nc-result-photo {
-      height: 110px; border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 66px; margin-bottom: 14px;
-      background: #B4EACC;
+      height: 140px; border-radius: 14px;
+      overflow: hidden; margin-bottom: 14px;
+    }
+    .nc-result-photo img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
     }
     .nc-result-desc-label { font-weight: 700; font-size: 14px; color: #002926; margin-bottom: 8px; }
     .nc-result-desc {
@@ -603,25 +604,29 @@ const CONTENT = {
   compassNutrients:   ["Kohlen.", "Fett", "Protein", "Ballaststoffe", "Zucker"],
   compassMeals: {
     salad: {
-      emoji: "🥗", name: "Grüner Salat", short: "Leicht & frisch",
+      img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80",
+      name: "Grüner Salat", short: "Leicht & frisch",
       desc: ["Blattsalat-Mix", "Kirschtomaten", "Gurke", "Leichtes Dressing"],
       dials: { "Kohlen.": "low", "Fett": "low", "Protein": "low", "Ballaststoffe": "good", "Zucker": "low" },
       nudge: "Ein frischer, leichter Start. Proteinarm – füge <strong>Kichererbsen, ein Ei oder eine Handvoll Nüsse</strong> hinzu, damit du länger satt bleibst."
     },
     sandwich: {
-      emoji: "🥪", name: "Sandwich", short: "Ein solides Mittagessen",
+      img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&q=80",
+      name: "Sandwich", short: "Ein solides Mittagessen",
       desc: ["Vollkornbrot", "Hähnchen & Käse", "Salat & Tomate", "Etwas Mayonnaise"],
       dials: { "Kohlen.": "good", "Fett": "good", "Protein": "good", "Ballaststoffe": "low", "Zucker": "low" },
       nudge: "Gut ausgewogen – Kohlenhydrate, Protein und Fett stimmen. Ergänze <strong>eine Beilage Gemüse oder extra Salatblätter</strong> für mehr Ballaststoffe."
     },
     pizza: {
-      emoji: "🍕", name: "Pizza", short: "Freitagsgefühl",
+      img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80",
+      name: "Pizza", short: "Freitagsgefühl",
       desc: ["2 Scheiben Margherita", "Tomate & Mozzarella", "Frisches Basilikum", "Olivenöl"],
       dials: { "Kohlen.": "high", "Fett": "good", "Protein": "good", "Ballaststoffe": "low", "Zucker": "low" },
       nudge: "Pizza-Abend? Alles gut. Füge <strong>einen einfachen Beilagensalat oder etwas Rucola obendrauf</strong> hinzu – ohne den Genuss zu schmälern."
     },
     beer: {
-      emoji: "🍺", name: "Ein Bier", short: "Entspannung",
+      img: "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400&q=80",
+      name: "Ein Bier", short: "Entspannung",
       desc: ["Ein Lager (0,5l)", "Mit Freunden"],
       dials: { "Kohlen.": "high", "Fett": "low", "Protein": "low", "Ballaststoffe": "low", "Zucker": "good" },
       nudge: "Ein Bier genießen? Kein Problem. Wenn es abends ist, hilft <strong>eine richtige Mahlzeit dazu</strong> – mit Protein und Gemüse – damit du dich morgen bestens fühlst."
@@ -632,7 +637,7 @@ const CONTENT = {
   compassResultMealLabel: "Deine Mahlzeit",
   compassFeedbackLabel:   "Mahlzeiten-Feedback",
   compassNudgeHead:       "✦ Dein Kompass sagt",
-  compassFunnelLabel:     "Prüfen, ob Oviva für dich übernommen wird",
+  compassFunnelLabel:     "Jetzt kostenlos starten",
   compassTryAnother:      "Andere Mahlzeit ausprobieren",
   compassCtaNote:         "Dauert 2 Minuten · ",
   compassStatusLabels: { low: "Niedrig", good: "Gut", high: "Hoch" },
@@ -748,22 +753,6 @@ const CONTENT = {
   </div>
 </section>
 
-<!-- Feature spotlight -->
-<section id="feature-spotlight" class="section feature-section">
-  <div class="inner">
-    <div class="feature-text">
-      <h2 id="feature-headline"></h2>
-      <p  id="feature-body" style="margin-top:1rem;"></p>
-      <div style="margin-top:1.5rem;">
-        <a id="feature-cta" class="btn btn-outline" href="#"></a>
-      </div>
-    </div>
-    <div class="feature-image">
-      <img id="feature-image" src="" alt="" />
-    </div>
-  </div>
-</section>
-
 <!-- Nutrition Compass -->
 <section id="nutrition-compass">
   <div class="inner">
@@ -832,6 +821,22 @@ const CONTENT = {
     </section>
   </div>
 </div>
+
+<!-- Feature spotlight -->
+<section id="feature-spotlight" class="section feature-section">
+  <div class="inner">
+    <div class="feature-text">
+      <h2 id="feature-headline"></h2>
+      <p  id="feature-body" style="margin-top:1rem;"></p>
+      <div style="margin-top:1.5rem;">
+        <a id="feature-cta" class="btn btn-outline" href="#"></a>
+      </div>
+    </div>
+    <div class="feature-image">
+      <img id="feature-image" src="" alt="" />
+    </div>
+  </div>
+</section>
 
 <!-- Benefits -->
 <section id="benefits" class="section">
@@ -1066,7 +1071,7 @@ const CONTENT = {
   document.getElementById("nc-pick-sub").textContent   = c.compassWidgetDesc;
   document.getElementById("nc-food-grid").innerHTML    = Object.entries(c.compassMeals).map(([key, m]) => `
     <button class="nc-food" data-meal="${key}" aria-label="${m.name} wählen">
-      <span class="nc-emoji" aria-hidden="true">${m.emoji}</span>
+      <img class="nc-food-img" src="${m.img}" alt="${m.name}" loading="lazy" />
       <span class="nc-name">${m.name}</span>
       <span class="nc-desc">${m.short}</span>
     </button>`).join("");
@@ -1122,7 +1127,7 @@ const CONTENT = {
   }
 
   function renderResult(meal) {
-    document.getElementById("nc-result-photo").textContent = meal.emoji;
+    document.getElementById("nc-result-photo").innerHTML = `<img src="${meal.img}" alt="${meal.name}" />`;
     document.getElementById("nc-result-desc").innerHTML =
       meal.desc.map(d => `<li>${d}</li>`).join("");
     document.getElementById("nc-result-dials").innerHTML =
