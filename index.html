@@ -347,8 +347,8 @@
     .nc-widget .btn:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 2px; }
 
     /* Gauge / dial component */
-    .nc-dial { text-align: center; flex: 1; }
-    .nc-gauge { width: 100%; max-width: 62px; margin: 0 auto; display: block; }
+    .nc-dial { text-align: center; flex: 1; min-width: 0; }
+    .nc-gauge { width: 52px; height: 34px; margin: 0 auto; display: block; flex-shrink: 0; }
     .nc-gauge .nc-track { fill: none; stroke: #D1D1D5; stroke-width: 7; stroke-linecap: round; }
     .nc-gauge .nc-arc   { fill: none; stroke-width: 7; stroke-linecap: round; }
     .nc-needle {
